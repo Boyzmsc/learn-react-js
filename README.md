@@ -1,9 +1,9 @@
 # React-js
 
 ## About
-- [] Program Contact
-- [] Redux
-- [] MongoDB
+- [ ] Program Contact
+- [ ] Redux
+- [ ] MongoDB
 
 
 
