@@ -32,7 +32,13 @@ class App extends Component {
       <div className="App">
         <Subject
           title={this.state.subject.title}
-          sub={this.state.subject.sub}></Subject>
+          sub={this.state.subject.sub}
+          onChangePage = {function(){
+            this.setState({
+              mode: 'welcome'
+            })
+          }.bind(this)}>
+        </Subject>
         <TOC data={this.state.contents}></TOC>
         <Content title={_title} desc={_desc}></Content>
       </div>
