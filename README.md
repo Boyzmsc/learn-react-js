@@ -1,9 +1,7 @@
 # React-js
 
 ## About
-- [ ] Program Contact
-- [ ] Redux
-- [ ] MongoDB
-
-
-
+- [ ] React
+- [ ] Component
+- [ ] State
+- [ ] Event
