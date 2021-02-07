@@ -5,3 +5,6 @@
 - [ ] Component
 - [ ] State
 - [ ] Event
+
+## Link & License
+
