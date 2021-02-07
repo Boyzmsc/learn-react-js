@@ -2,8 +2,8 @@
 
 ## About
 - [X] Component
-- [ ] State
-- [ ] Event
+- [X] State
+- [X] Event
 
 ## Link & Copyright
 
