@@ -53,7 +53,7 @@ class App extends Component {
       _article = <CreateContent onSubmit={function (_title, _desc) {
         this.max_content_id++;
         var _contents = this.state.contents.concat({ id: this.max_content_id, title: _title, desc: _desc });
-        this.setState({ contents: _contents });
+        this.setState({ contents: _contents, mode : 'read', selected_content_id : this.max_content_id });
       }.bind(this)}>
       </CreateContent>;
     }
@@ -66,7 +66,7 @@ class App extends Component {
           var _contents = Array.from(this.state.contents);
           _contents[_id-1].title = _title;
           _contents[_id-1].desc = _desc;
-          this.setState({ contents: _contents });
+          this.setState({ contents: _contents, mode : 'read'});
         }.bind(this)}>
       </UpdateContent>;
     }
