@@ -4,7 +4,7 @@
 - [X] Component
 - [X] State
 - [X] Event
-- [ ] CRUD
+- [X] CRUD
 
 ## Copyright
 
