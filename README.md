@@ -5,7 +5,7 @@
 - [X] State
 - [X] Event
 - [X] CRUD
-- [ ] Redux
+- [X] Redux
 - [ ] Redux CRUD
 - [ ] React Redux
 
