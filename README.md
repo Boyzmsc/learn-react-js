@@ -5,6 +5,9 @@
 - [X] State
 - [X] Event
 - [X] CRUD
+- [ ] Redux
+- [ ] Redux CRUD
+- [ ] React Redux
 
 ## Copyright
 
