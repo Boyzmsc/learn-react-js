@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .container {
+            border: 5px solid black;
+            padding: 10px;
+        }
+    </style>
+
+    <div id="red"></div>
+    <div id="green"></div>
+
+    <script>
+        // 서로 종속적이어서 객체(함수)를 추가할 때마다,
+        // 신경써야할 부분이 기하급수적으로 증가
+        function red() {
+            document.querySelector('#red').innerHTML = `
+                <div class = "container" id = "component_red">
+                    <h1>red</h1>
+                    <input type = "button" value = "fire" 
+                    onclick = "document.querySelector('#component_red').style.backgroundColor = 'red';
+                    document.querySelector('#component_green').style.backgroundColor = 'red';">
+                </div>
+            `;
+        }
+        red();
+        function green() {
+            document.querySelector('#green').innerHTML = `
+                <div class = "container" id = "component_green">
+                    <h1>green</h1>
+                    <input type = "button" value = "fire" 
+                    onclick = "document.querySelector('#component_green').style.backgroundColor = 'green';
+                    document.querySelector('#component_red').style.backgroundColor = 'green';">
+                </div>
+            `;
+        }
+        green();
+    </script>
+</body>
+
+</html>
