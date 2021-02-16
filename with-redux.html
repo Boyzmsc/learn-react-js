@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- For Using Redux (Redux cdn) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js"
         integrity="sha512-P36ourTueX/PrXrD4Auc1kVLoTE7bkWrIrkaM0IG2X3Fd90LFgTRogpZzNBssay0XOXhrIgudf4wFeftdsPDiQ=="
         crossorigin="anonymous"></script>
@@ -29,7 +30,10 @@
             if (state === undefined) {
                 return { color: 'yellow' };
             }
-            // state를 있는 그대로 수정하는 것이 아닌 복제(복사)해서 리턴하는 것이 실용적임
+            // state를 있는 그대로 수정하는 것이 아닌 복제(복사)해서 리턴해야함
+            // Object.assign(); 사용
+            // 원본을 변경하면 안됨, 각각의 데이터들은 서로 완전히 독립되어야 함
+            // 독립성, 불변성의 법칙을 지킴
             var newState;
             if (action.type === 'CHANGE_COLOR') {
                 newState = Object.assign({}, state, { color: action.color });
