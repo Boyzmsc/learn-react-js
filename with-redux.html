@@ -33,12 +33,12 @@
             var newState;
             if (action.type === 'CHANGE_COLOR') {
                 newState = Object.assign({}, state, { color: action.color });
-                state.color = action.color;
             }
             return newState;
         }
 
-        var store = Redux.createStore(reducer);
+        var store = Redux.createStore(reducer,
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
         function red() {
             var state = store.getState();
