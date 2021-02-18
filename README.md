@@ -6,7 +6,7 @@
 - [X] Event
 - [X] CRUD
 - [X] Redux
-- [ ] Redux CRUD
+- [X] CRUD (Redux)
 - [ ] React Redux
 
 ## Copyright
