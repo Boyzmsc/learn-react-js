@@ -37,7 +37,11 @@
                 <li>
                     <a onclick = "
                         event.preventDefault();
-                        var action = {type : 'SELECT', id: ${state.contents[i].id}};
+                        var action = {
+                            type : 'SELECT', 
+                            id : ${state.contents[i].id}, 
+                            mode : 'read'
+                        };
                         store.dispatch(action);
                     "
                     href="${state.contents[i].id}">
@@ -61,10 +65,13 @@
                 <li>
                     <a onclick = "
                         event.preventDefault();
+                        var action = {type : 'SELECT', id : 0, mode : 'create'};
+                        store.dispatch(action);
                     "
                     href="/create">
                     create</a></li>
-                <li><input type="button" value="delete"></li>
+                <li><input onclick = "store.dispatch({type : 'DELETE'});" 
+                    type="button" value="delete"></li>
             </ul>
             `
         }
@@ -99,13 +106,27 @@
                 </article>
                 `
             } else if (state.mode === 'read') {
-                var aTitle = state.contents[state.selected_id - 1].title;
-                var aDesc = state.contents[state.selected_id - 1].desc;
+                var aTitle;
+                var aDesc;
+
+                for (var i = 0; i < state.contents.length; i++) {
+                    if (state.selected_id === state.contents[i].id) {
+                        aTitle = state.contents[i].title;
+                        aDesc = state.contents[i].desc;
+                    }
+                }
 
                 document.querySelector('#content').innerHTML = `
                 <article>
                     <h2>${aTitle}</h2>
                     ${aDesc}
+                </article>
+                `
+            } else if (state.mode === 'welcome') {
+                document.querySelector('#content').innerHTML = `
+                <article>
+                    <h2>WELCOME</h2>
+                    Hello, Redux !!!
                 </article>
                 `
             }
@@ -116,7 +137,7 @@
             if (state === undefined) {
                 return {
                     max_id: 2,
-                    mode: 'create',
+                    mode: 'welcome',
                     selected_id: 1,
                     contents: [
                         { id: 1, title: 'HTML', desc: 'HTML is ..' },
@@ -127,7 +148,10 @@
 
             var newState;
             if (action.type === 'SELECT') {
-                newState = Object.assign({}, state, { selected_id: action.id });
+                newState = Object.assign({}, state, {
+                    selected_id: action.id,
+                    mode: action.mode
+                });
             }
             else if (action.type === 'CREATE') {
                 var newMaxId = state.max_id + 1;
@@ -137,18 +161,30 @@
 
                 newState = Object.assign({}, state, {
                     max_id: newMaxId,
-                    selected_id : newMaxId,
+                    selected_id: newMaxId,
                     contents: newContents,
                     mode: 'read'
                 })
             }
-
-            console.log(state, action, newState);
+            else if (action.type === 'DELETE') {
+                var newContents = [];
+                for (var i = 0; i < state.contents.length; i++) {
+                    if (state.selected_id !== state.contents[i].id) {
+                        newContents.push(state.contents[i]);
+                    }
+                }
+                newState = Object.assign({}, state, {
+                    max_id: state.max_id - 1,
+                    contents: newContents,
+                    mode: 'welcome'
+                })
+            }
 
             return newState;
         }
 
-        var store = Redux.createStore(reducer);
+        var store = Redux.createStore(reducer,
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
         // state 값이 변경될 때 자동으로 인자함수 호출
         store.subscribe(article);
         store.subscribe(TOC);
