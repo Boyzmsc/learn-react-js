@@ -32,7 +32,7 @@
         function TOC() {
             var state = store.getState();
             var liTags = '';
-            for (var i = 0; i < state.contents.length; i++) [
+            for (var i = 0; i < state.contents.length; i++) {
                 liTags += `
                 <li>
                     <a onclick = "
@@ -45,7 +45,8 @@
                     </a>
                 </li>
                 `
-            ]
+            }
+
             document.querySelector('#toc').innerHTML = `
             <nav>
                 <ol>${liTags}</ol>
@@ -63,19 +64,23 @@
         }
 
         function article() {
+            var state = store.getState();
+            var aTitle = state.contents[state.selected_id - 1].title;
+            var aDesc = state.contents[state.selected_id - 1].desc;
+
             document.querySelector('#content').innerHTML = `
             <article>
-                <h2>HTML</h2>
-                HTML is ...
+                <h2>${aTitle}</h2>
+                ${aDesc}
             </article>
             `
         }
 
         function reducer(state, action) {
-            // 초깃값 설정
+            // 초기값 설정
             if (state === undefined) {
                 return {
-                    selected_id : null,
+                    selected_id: 1,
                     contents: [
                         { id: 1, title: 'HTML', desc: 'HTML is ..' },
                         { id: 2, title: 'CSS', desc: 'CSS is ..' }
@@ -83,14 +88,18 @@
                 }
             }
             var newState;
-            if(action.type === 'SELECT'){
-                newState = Object.assign({}, state, {selected_id : action.id});
+            if (action.type === 'SELECT') {
+                newState = Object.assign({}, state, { selected_id: action.id });
 
             }
             console.log(state, action, newState);
+
+            return newState;
         }
 
         var store = Redux.createStore(reducer);
+        // state 값이 변경될 때 자동으로 인자함수 호출
+        store.subscribe(article);
 
         subject();
         TOC();
