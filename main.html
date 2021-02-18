@@ -34,7 +34,16 @@
             var liTags = '';
             for (var i = 0; i < state.contents.length; i++) [
                 liTags += `
-                <li><a href="${state.contents[i].id}">${state.contents[i].title}</a></li>
+                <li>
+                    <a onclick = "
+                        event.preventDefault();
+                        var action = {type : 'SELECT', id: ${state.contents[i].id}};
+                        store.dispatch(action);
+                    "
+                    href="${state.contents[i].id}">
+                    ${state.contents[i].title}
+                    </a>
+                </li>
                 `
             ]
             document.querySelector('#toc').innerHTML = `
@@ -66,12 +75,19 @@
             // 초깃값 설정
             if (state === undefined) {
                 return {
+                    selected_id : null,
                     contents: [
                         { id: 1, title: 'HTML', desc: 'HTML is ..' },
                         { id: 2, title: 'CSS', desc: 'CSS is ..' }
                     ]
                 }
             }
+            var newState;
+            if(action.type === 'SELECT'){
+                newState = Object.assign({}, state, {selected_id : action.id});
+
+            }
+            console.log(state, action, newState);
         }
 
         var store = Redux.createStore(reducer);
