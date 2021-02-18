@@ -55,9 +55,15 @@
         }
 
         function control() {
+            var state = store.getState();
             document.querySelector('#control').innerHTML = `
             <ul>
-                <li><a href="/create">create</a></li>
+                <li>
+                    <a onclick = "
+                        event.preventDefault();
+                    "
+                    href="/create">
+                    create</a></li>
                 <li><input type="button" value="delete"></li>
             </ul>
             `
@@ -65,21 +71,52 @@
 
         function article() {
             var state = store.getState();
-            var aTitle = state.contents[state.selected_id - 1].title;
-            var aDesc = state.contents[state.selected_id - 1].desc;
+            if (state.mode === 'create') {
+                document.querySelector('#content').innerHTML = `
+                <article>
+                    <form onsubmit = "
+                        event.preventDefault();
+                        var title = this.title.value;
+                        var desc = this.desc.value;
+                        store.dispatch({
+                            type : 'CREATE',
+                            title : title,
+                            desc : desc
+                        })
+                    ">
+                        <p>
+                            <input type = "text" name = "title"
+                            placeholder = "title">    
+                        </p>
+                        <p>
+                            <textarea name = "desc"
+                            placeholder = "description"></textarea>    
+                        </p>
+                        <p>
+                            <input type = "submit">    
+                        </p>
+                    </form>
+                </article>
+                `
+            } else if (state.mode === 'read') {
+                var aTitle = state.contents[state.selected_id - 1].title;
+                var aDesc = state.contents[state.selected_id - 1].desc;
 
-            document.querySelector('#content').innerHTML = `
-            <article>
-                <h2>${aTitle}</h2>
-                ${aDesc}
-            </article>
-            `
+                document.querySelector('#content').innerHTML = `
+                <article>
+                    <h2>${aTitle}</h2>
+                    ${aDesc}
+                </article>
+                `
+            }
         }
 
         function reducer(state, action) {
             // 초기값 설정
             if (state === undefined) {
                 return {
+                    max_id: 2,
+                    mode: 'create',
                     selected_id: 1,
                     contents: [
                         { id: 1, title: 'HTML', desc: 'HTML is ..' },
@@ -87,11 +124,25 @@
                     ]
                 }
             }
+
             var newState;
             if (action.type === 'SELECT') {
                 newState = Object.assign({}, state, { selected_id: action.id });
-
             }
+            else if (action.type === 'CREATE') {
+                var newMaxId = state.max_id + 1;
+
+                var newContents = state.contents.concat();
+                newContents.push({ id: newMaxId, title: action.title, desc: action.desc, });
+
+                newState = Object.assign({}, state, {
+                    max_id: newMaxId,
+                    selected_id : newMaxId,
+                    contents: newContents,
+                    mode: 'read'
+                })
+            }
+
             console.log(state, action, newState);
 
             return newState;
@@ -100,6 +151,7 @@
         var store = Redux.createStore(reducer);
         // state 값이 변경될 때 자동으로 인자함수 호출
         store.subscribe(article);
+        store.subscribe(TOC);
 
         subject();
         TOC();
