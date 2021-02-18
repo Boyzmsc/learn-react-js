@@ -167,24 +167,29 @@
                 })
             }
             else if (action.type === 'DELETE') {
-                var newContents = [];
-                for (var i = 0; i < state.contents.length; i++) {
-                    if (state.selected_id !== state.contents[i].id) {
-                        newContents.push(state.contents[i]);
+                if (state.mode !== 'read') {
+                    alert("Please Select!!!");
+                    newState = Object.assign({}, state);
+                } else {
+                    var newContents = [];
+                    for (var i = 0; i < state.contents.length; i++) {
+                        if (state.selected_id !== state.contents[i].id) {
+                            newContents.push(state.contents[i]);
+                        }
                     }
+                    newState = Object.assign({}, state, {
+                        max_id: state.max_id - 1,
+                        contents: newContents,
+                        mode: 'welcome'
+                    });
                 }
-                newState = Object.assign({}, state, {
-                    max_id: state.max_id - 1,
-                    contents: newContents,
-                    mode: 'welcome'
-                })
             }
 
             return newState;
         }
 
         var store = Redux.createStore(reducer,
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
         // state 값이 변경될 때 자동으로 인자함수 호출
         store.subscribe(article);
         store.subscribe(TOC);
