@@ -7,7 +7,7 @@
 - [X] CRUD
 - [X] Redux
 - [X] CRUD (Redux)
-- [X] React Redux
+- [X] React-Redux
 
 ## Copyright
 
