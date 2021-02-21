@@ -1,7 +1,19 @@
+import {connect} from 'react-redux';
 import AddNumber from '../components/AddNumber';
+
+// dispatch => store.dispatch를 의미
+function mapReduxDispatchToReactProps(dispatch) {
+    return {
+        onClick : function(size){
+            dispatch({ type: 'INCREMENT', size: size });
+        }
+    }
+}
+export default connect(null, mapReduxDispatchToReactProps)(AddNumber);
+
+/*
 import React, { Component } from 'react';
 import store from '../store';
-
 export default class extends Component {
     render() {
         return <AddNumber
@@ -10,3 +22,4 @@ export default class extends Component {
             }.bind(this)}></AddNumber>
     }
 }
+*/
