@@ -7,9 +7,9 @@ import DisplayNumberRoot from './components/DisplayNumberRoot';
 class App extends Component {
     render() {
         return (
-            <div classNmae="App" >
+            <div className="App" >
                 <h1>Hello World</h1>
-                <AddNumberRoot >
+                <AddNumberRoot>
                 </AddNumberRoot>
                 <DisplayNumberRoot>
                 </DisplayNumberRoot>
